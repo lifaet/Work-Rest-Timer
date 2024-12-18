@@ -73,7 +73,14 @@ def create_window():
     window.title("Timer")
     window.overrideredirect(True)
     window.resizable(False, False)
-    window.geometry("122x25+0+400")
+   
+    window_height = 25
+
+    screen_height = window.winfo_screenheight()
+    y = (screen_height - window_height) // 2
+
+    window.geometry(f"{122}x{window_height}+0+{y}")
+   
     window.wm_attributes('-topmost', True)
 
     frame_top = tk.Frame(window)
