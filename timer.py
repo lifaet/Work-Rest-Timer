@@ -64,7 +64,6 @@ def ask_work_time():
     work_time_entry.bind("<Return>", ask_break_time)
     work_time_entry.bind("<space>", ask_break_time)
     submit_button = tk.Button(frame_entry, text="N", command=ask_break_time)
-    pause_button.pack(side="left")
     submit_button.grid(row=0, column=2)
     work_time_entry.focus()
 
