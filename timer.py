@@ -73,14 +73,13 @@ def create_window():
     window.title("Timer")
     window.overrideredirect(True)
     window.resizable(False, False)
-   
+
     window_height = 25
 
     screen_height = window.winfo_screenheight()
     y = (screen_height - window_height) // 2
 
-    window.geometry(f"{122}x{window_height}+0+{y}")
-   
+    window.geometry(f"122x{window_height}+0+{y}")
     window.wm_attributes('-topmost', True)
 
     frame_top = tk.Frame(window)
@@ -108,7 +107,7 @@ def countdown_cycle():
         if not paused:
             countdown(break_time, label, "green")
             countdown(work_time, label, "black")
-            
+
 def main():
     create_window()
     window.bind("<Return>", lambda event: toggle_pause())
