@@ -46,7 +46,7 @@ def create_window():
 def countdown_cycle(label):
     while True:
         if not paused:
-            countdown(120, label, "black")
+            countdown(60, label, "black")
             countdown(1200, label, "red")
 
 def main():
