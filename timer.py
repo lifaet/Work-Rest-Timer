@@ -25,6 +25,9 @@ def close_window():
 
 def start_timer(event=None):
     global work_time, break_time
+    if break_time_entry.get() == "":
+        flash_entry(break_time_entry)
+        return
     break_time = int(break_time_entry.get()) * 60
     work_time = int(work_time_entry.get()) * 60
     frame_entry.pack_forget()
@@ -35,6 +38,9 @@ def start_timer(event=None):
 
 def ask_break_time(event=None):
     global break_time_entry
+    if work_time_entry.get() == "":
+        flash_entry(work_time_entry)
+        return
     work_time = int(work_time_entry.get()) * 60
     label_prompt.config(text="Break:")
     work_time_entry.grid_forget()
@@ -44,6 +50,10 @@ def ask_break_time(event=None):
     break_time_entry.bind("<space>", start_timer)
     submit_button.config(command=start_timer)
     break_time_entry.focus()
+
+def flash_entry(entry):
+    entry.config(bg="red")
+    window.after(500, lambda: entry.config(bg="white"))
 
 def ask_work_time():
     global work_time_entry, label_prompt, submit_button
