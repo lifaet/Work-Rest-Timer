@@ -64,6 +64,7 @@ def ask_work_time():
     work_time_entry.bind("<Return>", ask_break_time)
     work_time_entry.bind("<space>", ask_break_time)
     submit_button = tk.Button(frame_entry, text="N", command=ask_break_time)
+    pause_button.pack(side="left")
     submit_button.grid(row=0, column=2)
     work_time_entry.focus()
 
@@ -83,7 +84,7 @@ def create_window():
     close_button.pack(side="right")
 
     frame_entry = tk.Frame(frame_top)
-    frame_entry.pack(pady=2, padx=2)
+    frame_entry.pack(pady=0, padx=2)
     ask_work_time()
 
     frame_label = tk.Frame(frame_top)
@@ -93,7 +94,7 @@ def create_window():
     label.pack(side="left")
 
     pause_button = tk.Button(frame_label, text="||", command=toggle_pause, fg="black")
-    pause_button.pack(side="left", padx=(0, 5))
+    pause_button.pack(side="left")
 
 def countdown_cycle():
     global work_time, break_time
