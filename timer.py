@@ -69,6 +69,7 @@ def ask_work_time():
 
 def create_window():
     global window, label, pause_button, frame_label, frame_entry
+
     window = tk.Tk()
     window.title("Timer")
     window.overrideredirect(True)
@@ -82,10 +83,14 @@ def create_window():
     window.geometry(f"122x{window_height}+0+{y}")
     window.wm_attributes('-topmost', True)
 
+    # Make the main window transparent
+    window.attributes('-alpha', 0.70)
+
     frame_top = tk.Frame(window)
     frame_top.pack(side="top", fill="x")
 
-    close_button = tk.Button(frame_top, text="X", command=close_window, fg="black")
+    close_button = tk.Button(frame_top, text="X", command=close_window, fg="black",
+                             borderwidth=0, highlightthickness=0)
     close_button.pack(side="right")
 
     frame_entry = tk.Frame(frame_top)
@@ -105,8 +110,8 @@ def countdown_cycle():
     global work_time, break_time
     while True:
         if not paused:
-            countdown(break_time, label, "green")
             countdown(work_time, label, "black")
+            countdown(break_time, label, "green")
 
 def main():
     create_window()
