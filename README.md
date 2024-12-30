@@ -11,7 +11,7 @@ This standalone executable provides a simple and effective way to implement the 
 
 **How to Use:**
 
-1.  Download: Download the latest release from the [GitHub repository](YOUR_GITHUB_REPO_LINK). *(Replace with your actual link)*
+1.  Download: Download the latest release from the GitHub repository.
 2.  Run: Double-click the executable file to start the application.
 3.  Set Timers: Enter the desired work and break durations in minutes.
 4.  Start: Press "N" or press Enter after entering Work time to proceed to enter Break time, then press "N" or press Enter or press Space to start the timer cycle.
