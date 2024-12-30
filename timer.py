@@ -5,7 +5,7 @@ import threading
 paused = False
 work_time = 0
 break_time = 0
-window = None # Initialize window globally
+window = None
 
 def countdown(count, label, color, flash_color=None):
     global paused
@@ -19,7 +19,7 @@ def countdown(count, label, color, flash_color=None):
         flash_screen(flash_color)
 
 def flash_screen(color):
-    flash_window = tk.Tk()  # Create a separate root window for the flash
+    flash_window = tk.Tk()
     flash_window.overrideredirect(True)
 
     screen_width = flash_window.winfo_screenwidth()
@@ -38,7 +38,7 @@ def flash_screen(color):
         flash_window.destroy()
 
     flash_window.after(1000, destroy_flash)
-    flash_window.mainloop()  # Crucial: Start the flash window's event loop
+    flash_window.mainloop()
 
 def toggle_pause(event=None):
     global paused
