@@ -6,7 +6,7 @@ paused = False
 work_time = 0
 break_time = 0
 
-def countdown(count, label, color):
+def countdown(count, label, color, flash_color=None):
     global paused
     while count >= 0 and not paused:
         minutes, seconds = divmod(count, 60)
@@ -14,6 +14,26 @@ def countdown(count, label, color):
         label.update()
         time.sleep(1)
         count -= 1
+    if flash_color:
+        flash_screen(flash_color)
+
+def flash_screen(color):
+    flash_window = tk.Toplevel()
+    screen_width = flash_window.winfo_screenwidth()
+    screen_height = flash_window.winfo_screenheight()
+    flash_window.geometry(f"{screen_width}x{screen_height}+0+0")
+    flash_window.config(bg=color)
+    flash_window.attributes('-topmost', True)
+    flash_window.attributes('-alpha', 1.0)
+    flash_window.update_idletasks() 
+    flash_window.update()           
+    flash_window.focus_force()     
+    flash_window.geometry(f"{screen_width}x{screen_height}+0+0")
+
+    def destroy_flash():
+        flash_window.destroy()
+
+    flash_window.after(1000, destroy_flash)
 
 def toggle_pause(event=None):
     global paused
@@ -25,11 +45,16 @@ def close_window():
 
 def start_timer(event=None):
     global work_time, break_time
-    if break_time_entry.get() == "":
-        flash_entry(break_time_entry)
+    try:
+        break_time = int(break_time_entry.get()) * 60
+        work_time = int(work_time_entry.get()) * 60
+    except ValueError:
+        if work_time_entry.get() == "":
+            flash_entry(work_time_entry)
+        if break_time_entry.get() == "":
+            flash_entry(break_time_entry)
         return
-    break_time = int(break_time_entry.get()) * 60
-    work_time = int(work_time_entry.get()) * 60
+
     frame_entry.pack_forget()
     frame_label.pack(pady=2, padx=2)
     timer_thread = threading.Thread(target=countdown_cycle)
@@ -38,10 +63,11 @@ def start_timer(event=None):
 
 def ask_break_time(event=None):
     global break_time_entry
-    if work_time_entry.get() == "":
+    try:
+        work_time = int(work_time_entry.get()) * 60
+    except ValueError:
         flash_entry(work_time_entry)
         return
-    work_time = int(work_time_entry.get()) * 60
     label_prompt.config(text="Break:")
     work_time_entry.grid_forget()
     break_time_entry = tk.Entry(frame_entry, width=5)
@@ -76,14 +102,10 @@ def create_window():
     window.resizable(False, False)
 
     window_height = 25
-
     screen_height = window.winfo_screenheight()
     y = (screen_height - window_height) // 2
-
     window.geometry(f"122x{window_height}+0+{y}")
     window.wm_attributes('-topmost', True)
-
-    # Make the main window transparent
     window.attributes('-alpha', 0.70)
 
     frame_top = tk.Frame(window)
@@ -110,8 +132,8 @@ def countdown_cycle():
     global work_time, break_time
     while True:
         if not paused:
-            countdown(work_time, label, "black")
-            countdown(break_time, label, "green")
+            countdown(work_time, label, "black", "red")
+            countdown(break_time, label, "green", "green")
 
 def main():
     create_window()
