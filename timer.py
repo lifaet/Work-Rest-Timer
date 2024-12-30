@@ -5,6 +5,7 @@ import threading
 paused = False
 work_time = 0
 break_time = 0
+window = None # Initialize window globally
 
 def countdown(count, label, color, flash_color=None):
     global paused
@@ -18,22 +19,26 @@ def countdown(count, label, color, flash_color=None):
         flash_screen(flash_color)
 
 def flash_screen(color):
-    flash_window = tk.Toplevel()
+    flash_window = tk.Tk()  # Create a separate root window for the flash
+    flash_window.overrideredirect(True)
+
     screen_width = flash_window.winfo_screenwidth()
     screen_height = flash_window.winfo_screenheight()
     flash_window.geometry(f"{screen_width}x{screen_height}+0+0")
+
     flash_window.config(bg=color)
     flash_window.attributes('-topmost', True)
     flash_window.attributes('-alpha', 1.0)
-    flash_window.update_idletasks() 
-    flash_window.update()           
-    flash_window.focus_force()     
-    flash_window.geometry(f"{screen_width}x{screen_height}+0+0")
+
+    flash_window.update_idletasks()
+    flash_window.update()
+    flash_window.focus_force()
 
     def destroy_flash():
         flash_window.destroy()
 
     flash_window.after(1000, destroy_flash)
+    flash_window.mainloop()  # Crucial: Start the flash window's event loop
 
 def toggle_pause(event=None):
     global paused
@@ -41,7 +46,9 @@ def toggle_pause(event=None):
     pause_button.config(text="▶" if paused else "||")
 
 def close_window():
-    window.destroy()
+    global window
+    if window:
+        window.destroy()
 
 def start_timer(event=None):
     global work_time, break_time
@@ -136,6 +143,7 @@ def countdown_cycle():
             countdown(break_time, label, "green", "green")
 
 def main():
+    global window
     create_window()
     window.bind("<Return>", lambda event: toggle_pause())
     window.bind("<space>", lambda event: toggle_pause())
